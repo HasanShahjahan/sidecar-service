@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
+	"github.com/HasanShahjahan/sidecar-service/internal/logger"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -12,6 +12,10 @@ import (
 var Config = &struct {
 	LogLevel     string `json:"logLevel"`
 }{}
+
+const (
+	logTag = "Config"
+)
 
 var (
 	// errNilConfig is returned when a nil reference is passed in as Un/Marshaler reference
@@ -26,8 +30,8 @@ func LoadJSONConfig(config interface{}) error {
 
 	// try to get filename from env variable
 	filename := os.Getenv("CONFIG_PATH")
-	fmt.Println("FileName: ", filename)
 	if filename != "" {
+		logging.Info(logTag, "loading config from envVar=%s, file=%s", "CONFIG_PATH", filename)
 		return LoadJSONFile(filename, config)
 	}
 
@@ -38,6 +42,8 @@ func LoadJSONConfig(config interface{}) error {
 	}
 
 	fileName := absFileName + ".json"
+	logging.Info(logTag, "loading config from \"%s\"", fileName)
+
 	return LoadJSONFile(fileName, config)
 }
 

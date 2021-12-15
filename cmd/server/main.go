@@ -1,11 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/HasanShahjahan/sidecar-service/internal/config"
-	"log"
-
+	"github.com/HasanShahjahan/sidecar-service/internal/logger"
 	"github.com/joho/godotenv"
+)
+
+const (
+	logTag = "Start"
 )
 
 var allowedList []string
@@ -21,20 +23,18 @@ func main() {
 		"/account/{id}/user",
 		"/tenant/account/blocked",
 	}
-	fmt.Println("Hasan")
-
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Error")
+		logging.Error(logTag, "Error getting env, not coming through %+v", err)
 	} else {
-		fmt.Println("We are getting the env values")
+		logging.Info(logTag, "We are getting the env values")
 	}
 
 	if err := config.LoadJSONConfig(config.Config); err != nil {
-		log.Fatal("Json load error")
+		logging.Fatal(logTag, "unable to load configuration. error=%+v", err)
 	}
 
-	fmt.Println(config.Config.LogLevel)
+	logging.SetLogLevel(config.Config.LogLevel)
 
 }
 
