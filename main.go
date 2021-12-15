@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 var allowedList []string
 
 func main() {
@@ -13,6 +15,7 @@ func main() {
 		"/account/{id}/user",
 		"/tenant/account/blocked",
 	}
+	fmt.Println("Hasan")
 }
 
 func ValidatePath(path string) bool {
