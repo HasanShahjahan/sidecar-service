@@ -1,0 +1,9 @@
+{
+  "logLevel": "DEBUG",
+  "serviceName": "Proxy Server",
+  "downstreamUrl": "http://nginx:80",
+  "proxyTimeout": 10,
+  "errorFile": "/path/to/log.file",
+  "accessFile": "/path/to/access.file.log",
+  "logPrefix": "Test Prefix"
+}
