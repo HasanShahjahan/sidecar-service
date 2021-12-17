@@ -7,10 +7,17 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 var Config = &struct {
-	LogLevel     string `json:"logLevel"`
+	LogLevel      string          `json:"logLevel"`
+	ServiceName   string          `json:"serviceName"`
+	DownStreamURL string          `json:"downstreamUrl"`
+	Timeout       time.Duration   `json:"proxyTimeout"`
+	ErrorFile     string          `json:"errorFile"`
+	AccessFile    string          `json:"accessFile"`
+	LogPrefix     string          `json:"logPrefix"`
 }{}
 
 const (
