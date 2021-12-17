@@ -14,6 +14,7 @@ import (
 	"time"
 )
 
+//NewProxy - initialize proxy with configurable values
 func NewProxy(allowedList []*regexp.Regexp) *Proxy {
 	proxy := &Proxy{
 		ServiceName: config.Config.ServiceName,
@@ -31,11 +32,10 @@ func NewProxy(allowedList []*regexp.Regexp) *Proxy {
 		InvalidRequestsCount: 0,
 	}
 
-	proxy.initializeLog(config.Config.AccessFile, config.Config.ErrorFile)
 	proxy.initializeHandler()
 	return proxy
 }
-
+//ServeHTTP - create a Server with given address and handler
 func (proxy *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	proxy.TotalRequestsCount++
 	if proxy.ValidatePath(r.RequestURI) {
@@ -59,6 +59,7 @@ func (proxy *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, PathNotFound)
 }
 
+//ValidatePath - validates path based on down stream allowed list.
 func (proxy *Proxy) ValidatePath(path string) bool {
 	for _, allowedPath := range proxy.Downstream.AllowedList {
 		if allowedPath.MatchString(strings.Trim(strings.ToLower(strings.Split(path, "?")[0]), "/")) {
